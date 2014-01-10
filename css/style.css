@@ -48,3 +48,14 @@ body {
 .dropdown-menu.pull-right{
   background: yellow;
 }
+.image-thumbnail {
+  float:left;
+  margin-right: 10px;
+  clear:both
+}
+.separator {
+  border-bottom: 1px solid #ddd;
+}
+.new {
+  padding: 15px;
+}
