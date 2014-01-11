@@ -56,6 +56,7 @@ body {
 .separator {
   border-bottom: 1px solid #ddd;
 }
-.new {
+.news-details {
   padding: 15px;
+  cursor: pointer;
 }
