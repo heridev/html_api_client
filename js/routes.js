@@ -20,13 +20,17 @@ var Router = Backbone.Router.extend({
   },
 
   home: function() {
-    var data = {};
-    $('.body_container').html('').loadFromTemplate({
-      template : "test2",
-      data : data,
-      render_method: 'html',
-      extension : ".html",
-      path: 'templates/'
+    kindles = new KindlesCollection();
+    kindles.fetch({
+      dataType: 'jsonp',
+      data: { page: 1 },
+      success : function (data, response, jqXHR) {
+        var kindlesView = new KindlesView({ model: response, el: $('.body_container') });
+        kindlesView.render()
+      },
+      error: function(){
+        alert('a ocurrido un error favor de intentarlo mas tarde...');
+      }
     });
   }
 

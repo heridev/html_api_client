@@ -5,7 +5,5 @@ $(function () {
   });
 
   var router = new Router();
-
-  // Start history
   Backbone.history.start();
 });
