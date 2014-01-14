@@ -1,9 +1,6 @@
-<div class="row">
-  {{#each kindles}}
-  <div id="5" class="col-md-4 news-details">
-    <p><strong>No. Inventario: </strong>{{inventory_id}}</p>
-    <p><strong>Estado: </strong>{{status}}</p>
+<div id="kindles-list">
+  <div class="row">
   </div>
-  <div class='separator'></div>
-  {{/each}}
 </div>
+<input type="hidden" id="page" value="{{current_page}}" >
+<button type="button" id="load-more-kindles" class="btn btn-primary btn-lg">Cargar mas...</button>

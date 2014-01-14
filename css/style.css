@@ -60,3 +60,6 @@ body {
   padding: 15px;
   cursor: pointer;
 }
+.row {
+  margin-bottom: 12px;
+}

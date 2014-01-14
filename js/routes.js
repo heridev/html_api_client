@@ -25,8 +25,9 @@ var Router = Backbone.Router.extend({
       dataType: 'jsonp',
       data: { page: 1 },
       success : function (data, response, jqXHR) {
-        var kindlesView = new KindlesView({ model: response, el: $('.body_container') });
-        kindlesView.render()
+        pageInfo = { renderMethod: 'html', current_page: response.current_page, perPage: response.perPage, total_pages: response.total_pages }
+        var kindlesView = new KindlesView({ pageInfo: pageInfo, collection: response.models, el: $('#render-content') });
+        kindlesView.render();
       },
       error: function(){
         alert('a ocurrido un error favor de intentarlo mas tarde...');
