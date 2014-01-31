@@ -1,9 +1,10 @@
 $(function () {
 
-  Handlebars.registerHelper('fullName', function(person) {
-    return person.firstName + " " + person.lastName;
+  $.ajaxSetup({
+    'beforeSend': function(xhr) {
+      xhr.setRequestHeader("accept", "application/json");
+    }
   });
 
-  var router = new Router();
-  Backbone.history.start();
+  KindlesApp.init();
 });

@@ -1,4 +1,4 @@
-var KindlesView = Backbone.View.extend({
+var kindlesView = Backbone.View.extend({
 
   initialize: function(options) {
     this.pageInfo = options.pageInfo;
@@ -13,26 +13,29 @@ var KindlesView = Backbone.View.extend({
   },
 
   checkScroll: function(){
-    if(($(window).innerHeight() + $(window).scrollTop()) >= $('body').height()){
+    var isLastPage = this.IsTheLastPage();
+    if(isLastPage){ $('#load-more-kindles').remove(); }
+    var windowValue = ($(window).innerHeight() + $(window).scrollTop());
+    if( windowValue >= $('body').height() && !isLastPage){
       this.getMoreKindles();
     };
   },
 
   render: function(){
-    this.template();
+    this.loadTemplate();
+    this.addAllKindles(this.collection);
+    return this;
   },
 
-  template: function(){
+  loadTemplate: function(){
     var _this = this;
     this.$el.loadFromTemplate({
       template : "kindles",
-      data : { current_page: this.pageInfo['current_page'] },
-      render_method: this.pageInfo['renderMethod'],
+      data : { current_page: _this.pageInfo['current_page'] },
+      render_method: _this.pageInfo['renderMethod'],
       extension : ".html",
-      path: 'templates/',
-      callback: function(){
-        _this.addAllKindles(_this.collection);
-      }
+      async_mode: false,
+      path: 'templates/'
     });
   },
 
@@ -43,11 +46,10 @@ var KindlesView = Backbone.View.extend({
 
   getMoreKindles: function(){
     var next_page = this.pageInfo['current_page'] + 1;
-    this.removeButtonIfIsTheLastPage()
+    if(this.IsTheLastPage()){ $('#load-more-kindles').remove(); }
     var _this = this;
     kindles = new KindlesCollection();
     kindles.fetch({
-      dataType: 'jsonp',
       data: { page: next_page },
       success : function (data, response, jqXHR) {
         _this.pageInfo['current_page'] = response.current_page;
@@ -56,20 +58,22 @@ var KindlesView = Backbone.View.extend({
       },
       error: function(){
         alert('a ocurrido un error favor de intentarlo mas tarde...');
-      }
+      },
+      async: false
     });
   },
 
-  removeButtonIfIsTheLastPage: function(){
-    if(this.pageInfo['total_pages'] == this.pageInfo['current_page'])
-    {
-      $('#load-more-kindles').remove();
-    }
+  IsTheLastPage: function(){
+    var lastPageCondition = this.pageInfo['total_pages'] <= this.pageInfo['current_page'];
+    var result = (lastPageCondition || false);
+    return result;
   },
 
   addAllKindles: function(models){
-    _.each(models, function (kindle) {
-      var kindleView = new KindleView( { model: kindle, el: $('#kindles-list') } )
+    var _this = this;
+    _.each(models, function (kindle, index) {
+      var currentView = new KindleView( { model: kindle} )
+      _this.$el.find('#kindles-list').append(currentView.render().el)
     });
   }
 });

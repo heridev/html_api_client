@@ -8,20 +8,24 @@
     <meta name="author" content="Jose Heriberto Perez Magana">
 
     <!-- Styles -->
-    <link href="css/pure-min.css" rel="stylesheet">
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
     <link href="css/mediaqueries.css" rel="stylesheet">
+    <link href="css/bootstrap-glyphicons.css" rel="stylesheet">
     <script src="lib/jquery-1.10.1.min.js"></script>
     <script src="lib/handlebars-v1.3.0.js"></script>
     <script src="lib/jquery.loadFromTemplate.min.js"></script>
+    <script src="lib/serialize_object.js"></script>
     <script src="lib/underscore.js"></script>
     <script src="lib/backbone.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/namespace.js"></script>
     <script src="js/main.js"></script>
-    <script src="js/utils.js"></script>
+    <script src="js/helpers/handlebars.js"></script>
     <script src="js/views/kindles_view.js"></script>
     <script src="js/views/kindle_view.js"></script>
+    <script src="js/views/kindle_edit_view.js"></script>
+    <script src="js/views/add_kindle_view.js"></script>
     <script src="js/routes.js"></script>
     <script src="js/models/kindle_model.js"></script>
     <script src="js/collections/kindles_collection.js"></script>
@@ -37,11 +41,12 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Cliente Noticias</a>
+          <a class="navbar-brand" href="#">Kindles</a>
         </div>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Ultimas Noticias</a></li>
+            <li class="active"><a href="#">Kindles</a></li>
+            <li ><a href="#add-kindle">Agregar Kindle</a></li>
             <li><a href="#search">Buscador</a></li>
             <li><a href="#categories">Categorias</a></li>
           </ul>
@@ -52,7 +57,7 @@
     <div class="container body_container">
 
       <div id="render-content">
-        <!--<img src='images/loading.gif' />-->
+        <img src='images/loading.gif' />
       </div>
     </div><!-- /.container -->  </body>
 
