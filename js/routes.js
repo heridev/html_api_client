@@ -1,25 +1,72 @@
 KindlesApp.Routers.Router = Backbone.Router.extend({
 
   routes: {
-    ""                 : "home",
-    "categories"       : "categories",
+    ""                 : "login",
+    "kindles"          : "manageKindles",
     "add-kindle"       : "addKindle",
-    "*path"            : "home",
+    "logout"           : "logOut",
+    "*path"            : "authenticateUser",
   },
 
-  categories: function() {
-    alert('escoge tu categoria');
+  login: function(){
+    this.addUserToken();
+    this.renderPage(new KindlesApp.Views.LoginView);
   },
 
-  search: function() {
-    alert('vamos a buscar ');
+  logOut: function(){
+    var userLogOut = KindlesApp.ServerUrl + '/api/sessions/destroy?access_token=';
+    var user_token = KindlesApp.UserToken || $.cookie('UserToken')
+    $.ajax({
+      url: userLogOut + user_token,
+      success: function(resp) {
+        KindlesApp.UserToken = '';
+        $.removeCookie('UserToken');
+        $('#main-menu').html('');
+        KindlesApp.Router.navigate('', { trigger: true});
+      }
+    });
   },
 
-  postDetails: function(id) {
-    alert('vamos a mostrar la noticiaa ' + id);
+  authenticateUser: function(){
+    var url =   window.document.URL;
+    var acToken =   this.getTokensFromUrl(url, 'access_token');
+    this.validateToken(acToken);
   },
 
-  home: function() {
+  validateToken: function(access_token){
+    var _this = this;
+    var userAuthUrl = KindlesApp.ServerUrl + '/api/sessions/create?access_token=';
+    $.ajax({
+      url: userAuthUrl + access_token,
+      success: function(resp) {
+        KindlesApp.UserToken = access_token;
+        $.cookie('UserToken', access_token, { expires: 1 });
+        _this.loadLayoutOptions();
+        KindlesApp.Router.navigate('kindles', { trigger: true});
+      }
+    });
+  },
+
+  loadLayoutOptions: function(){
+    $('#main-menu').loadFromTemplate({
+      template : 'menu',
+      extension : ".html",
+      render_method: 'html',
+      data: {},
+      path: 'templates/',
+    });
+  },
+
+  getTokensFromUrl: function( url, name ) {
+    name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+    var regexS = "[\\#&]" + name + "=([^&#]*)";
+    var regex = new RegExp( regexS );
+    var results = regex.exec( url );
+    return ( results == null &&  "" ) || (results && results[1]);
+  },
+
+  manageKindles: function() {
+    this.addUserToken();
     var _this = this;
     kindles = new KindlesCollection();
     kindles.fetch({
@@ -36,18 +83,27 @@ KindlesApp.Routers.Router = Backbone.Router.extend({
           collection: response.models
         });
         _this.renderPage(currentView);
-      },
-      error: function(){
-        alert('a ocurrido un error favor de intentarlo mas tarde...');
       }
+
     });
   },
 
   addKindle: function(){
+    this.addUserToken();
     this.renderPage(new addKindleView());
   },
 
   renderPage: function(view) {
     $('#render-content').empty().html(view.render().el);
+  },
+
+  addUserToken: function(){
+    var userToken = (KindlesApp.UserToken || $.cookie('UserToken') || 'invalid-token');
+    if(($("meta[name='user-token']").length == 0) && (userToken != 'invalid-token')) {
+      this.loadLayoutOptions();
+      var metaTag = '<meta http-equiv="X-UA-Compatible" content="' + userToken + '" name="user-token"/> ';
+      $('head').append(metaTag);
+    }
   }
 });
+

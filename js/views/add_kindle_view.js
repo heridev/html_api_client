@@ -25,7 +25,7 @@ var addKindleView = Backbone.View.extend({
     data = form.serializeObject();
     kindleModel.save(data, {
       success: function(data) {
-        KindlesApp.Router.navigate('', { trigger: true});
+        KindlesApp.Router.navigate('kindles', { trigger: true});
       }
     });
 
