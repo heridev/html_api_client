@@ -100,6 +100,7 @@ KindlesApp.Routers.Router = Backbone.Router.extend({
   addUserToken: function(){
     var userToken = (KindlesApp.UserToken || $.cookie('UserToken') || 'invalid-token');
     if(($("meta[name='user-token']").length == 0) && (userToken != 'invalid-token')) {
+      KindlesApp.UserToken = userToken;
       this.loadLayoutOptions();
       var metaTag = '<meta http-equiv="X-UA-Compatible" content="' + userToken + '" name="user-token"/> ';
       $('head').append(metaTag);
