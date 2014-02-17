@@ -1,5 +1,9 @@
 var kindleEditView = Backbone.View.extend({
 
+  initialize: function(){
+    Cocktail.mixin(this, Mixins.HandleErrors);
+  },
+
   tagName: 'article',
 
   events: {
@@ -33,8 +37,17 @@ var kindleEditView = Backbone.View.extend({
         });
         elementId = "#" + data.id;
         $(elementId).parent().replaceWith((currentView.render().el));
+      },
+      error: function(model, response){
+        _this.showErrors(response);
       }
     });
-  }
+  },
+
+  showErrors: function(response) {
+    this.$('.error-area').html('');
+    this.$('.input-group').removeClass('has-error');
+    this.displayErrors(response);
+   }
 
 });
