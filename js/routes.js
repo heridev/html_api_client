@@ -43,6 +43,10 @@ KindlesApp.Routers.Router = Backbone.Router.extend({
         $.cookie('UserToken', access_token, { expires: 1 });
         _this.loadLayoutOptions();
         KindlesApp.Router.navigate('kindles', { trigger: true});
+      },
+      error: function(){
+        alert('La cuenta que utilizaste no es valida para iniciar sesion..');
+        KindlesApp.Router.navigate('', { trigger: true});
       }
     });
   },
