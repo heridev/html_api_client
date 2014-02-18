@@ -11,8 +11,11 @@ $(function () {
 });
 
 $( document ).ajaxError(function(e, jqxhr) {
-  if (jqxhr.status === 401 || jqxhr.status === 403) {
+  if (jqxhr.status === 401 ) {
     KindlesApp.Router.navigate('', { trigger: true});
+  };
+  if (jqxhr.status === 403 ) {
+    KindlesApp.Router.navigate('restricted-area', { trigger: true});
   };
 });
 

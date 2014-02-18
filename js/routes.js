@@ -5,6 +5,7 @@ KindlesApp.Routers.Router = Backbone.Router.extend({
     "kindles"          : "manageKindles",
     "add-kindle"       : "addKindle",
     "logout"           : "logOut",
+    "restricted-area"  : "restrictedArea",
     "*path"            : "authenticateUser",
   },
 
@@ -109,6 +110,16 @@ KindlesApp.Routers.Router = Backbone.Router.extend({
       var metaTag = '<meta http-equiv="X-UA-Compatible" content="' + userToken + '" name="user-token"/> ';
       $('head').append(metaTag);
     }
+  },
+
+  restrictedArea: function(){
+    $('#render-content').loadFromTemplate({
+      template : 'restricted',
+      extension : ".html",
+      render_method: 'html',
+      data: {},
+      path: 'templates/',
+    });
   }
 });
 
