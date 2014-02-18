@@ -1,6 +1,8 @@
-var kindlesView = Backbone.View.extend({
+KindlesApp.Views.kindlesView = Backbone.View.extend({
 
   initialize: function(options) {
+    this.template = options.template;
+    this.collectionSource = options.collectionSource || new KindlesCollection();
     this.pageInfo = options.pageInfo;
     var _this = this;
     $(window).bind('scroll', function (ev) {
@@ -30,7 +32,7 @@ var kindlesView = Backbone.View.extend({
   loadTemplate: function(){
     var _this = this;
     this.$el.loadFromTemplate({
-      template : "kindles",
+      template : 'kindles',
       data : { current_page: _this.pageInfo['current_page'] },
       render_method: _this.pageInfo['renderMethod'],
       extension : ".html",
@@ -48,7 +50,7 @@ var kindlesView = Backbone.View.extend({
     var next_page = this.pageInfo['current_page'] + 1;
     if(this.IsTheLastPage()){ $('#load-more-kindles').remove(); }
     var _this = this;
-    kindles = new KindlesCollection();
+    kindles = this.collectionSource;
     kindles.fetch({
       data: { page: next_page },
       success : function (data, response, jqXHR) {
@@ -72,7 +74,7 @@ var kindlesView = Backbone.View.extend({
   addAllKindles: function(models){
     var _this = this;
     _.each(models, function (kindle, index) {
-      var currentView = new KindleView( { model: kindle} )
+      var currentView = new KindleView( { model: kindle, template: _this.template } )
       _this.$el.find('#kindles-list').append(currentView.render().el)
     });
   }

@@ -3,6 +3,7 @@ var KindleView = Backbone.View.extend({
   tagName: 'article',
 
   initialize: function(options){
+    this.template = options.template || 'kindle_details'
     this.render_method = (options.render_method || 'append')
   },
 
@@ -14,7 +15,7 @@ var KindleView = Backbone.View.extend({
   render: function() {
     var _this = this;
     this.$el.loadFromTemplate({
-      template : 'kindle_details',
+      template : _this.template,
       data : _this.model,
       render_method: _this.render_method,
       extension : ".html",

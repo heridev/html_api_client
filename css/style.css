@@ -63,3 +63,34 @@ body {
 .row {
   margin-bottom: 12px;
 }
+
+.kindle-request-button {
+  background: #ffa03e;
+  border-radius: 34px;
+  box-shadow: 1px 1px 3px #CCC, 0px 1px 11px #CCC;
+  -webkit-box-shadow: 1px 1px 3px #CCC, 0px 1px 11px #CCC;
+  -moz-box-shadow: 1px 1px 3px #CCC, 0px 1px 11px #CCC;
+  border: 2px solid #fff;
+  line-height: 27px;
+  padding: 25px 37px 23px 38px;
+}
+
+.kindle-request-button span {
+  padding: 4px 2px 4px 46px;
+  color: white;
+  font-size: 20px;
+}
+
+.kindle-request-button a {
+  text-decoration: none;
+}
+.kindle-request-button:hover {
+  background: green;
+  text-decoration: none;
+}
+.kindle-request-area {
+  margin-bottom: 28px;
+  margin-left: 3px;
+  font-size: 19px;
+  font-weight: bold;
+}
