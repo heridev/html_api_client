@@ -1,14 +1,15 @@
 KindlesApp.Routers.Router = Backbone.Router.extend({
 
   routes: {
-    ""                     : "login",
-    "kindles"              : "manageKindles",
-    "kindle-requests"      : "manageKindleRequests",
-    "add-kindle"           : "addKindle",
-    "logout"               : "logOut",
-    "restricted-area"      : "restrictedArea",
-    "add-kindle-request"   : "addKindleRequest",
-    "*path"                : "authenticateUser",
+    ""                           : "login",
+    "kindles"                    : "manageKindles",
+    "kindle-requests"            : "manageKindleRequests",
+    "kindle-requests/show/:id"   : "showKindleRequest",
+    "add-kindle"                 : "addKindle",
+    "logout"                     : "logOut",
+    "restricted-area"            : "restrictedArea",
+    "add-kindle-request"         : "addKindleRequest",
+    "*path"                      : "authenticateUser",
   },
 
   login: function(){
@@ -167,5 +168,18 @@ KindlesApp.Routers.Router = Backbone.Router.extend({
 
     });
   },
+
+  showKindleRequest: function(id){
+    this.addUserToken();
+    var _this = this;
+    var kindle = new KindlesApp.Models.KindleRequestModel({
+      id: id
+    });
+    kindle.fetch({
+      success: function() {
+        _this.renderPage(new KindlesApp.Views.KindleRequestShowView({ model: kindle }));
+      }
+    });
+  }
 });
 
