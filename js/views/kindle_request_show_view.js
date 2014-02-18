@@ -3,10 +3,10 @@ KindlesApp.Views.KindleRequestShowView = Backbone.View.extend({
   tagName: 'article',
 
   events: {
+    'click .delete-kindle-request'    :    'removeKindleRequest'
   },
 
   render: function() {
-    console.log(this.model);
     var _this = this;
     this.$el.loadFromTemplate({
       template : 'show_kindle_request',
@@ -19,15 +19,16 @@ KindlesApp.Views.KindleRequestShowView = Backbone.View.extend({
     return this;
   },
 
-  removeKindle: function(event){
+  removeKindleRequest: function(event){
     event.preventDefault();
-    var element = this.$(event.currentTarget).closest( "div" )
-    kindle = this.setKindle(element);
 
     if (confirm('Está seguro de que desea eliminar este kindle?')) {
-      kindle.destroy({
+      this.model.destroy({
         success: function(model, response) {
-          element.remove();
+          $.jGrowl("The kindle request was destroyed successfully", {
+            position: 'center'
+          });
+          KindlesApp.Router.navigate('kindle-requests', { trigger: true });
         },
         error: function(model, response) {
           alert('ocurrio un error al momento de eliminar');
