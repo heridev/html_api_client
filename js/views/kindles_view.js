@@ -16,7 +16,6 @@ KindlesApp.Views.kindlesView = Backbone.View.extend({
 
   checkScroll: function(){
     var isLastPage = this.IsTheLastPage();
-    if(isLastPage){ $('#load-more-kindles').remove(); }
     var windowValue = ($(window).innerHeight() + $(window).scrollTop());
     if( windowValue >= $('body').height() && !isLastPage){
       this.getMoreKindles();
@@ -48,7 +47,6 @@ KindlesApp.Views.kindlesView = Backbone.View.extend({
 
   getMoreKindles: function(){
     var next_page = this.pageInfo['current_page'] + 1;
-    if(this.IsTheLastPage()){ $('#load-more-kindles').remove(); }
     var _this = this;
     kindles = this.collectionSource;
     kindles.fetch({
@@ -77,6 +75,7 @@ KindlesApp.Views.kindlesView = Backbone.View.extend({
       var currentView = new KindleView( { model: kindle, template: _this.template } )
       _this.$el.find('#kindles-list').append(currentView.render().el)
     });
+    if(this.IsTheLastPage()){ this.$('#load-more-kindles').remove(); }
   }
 });
 
