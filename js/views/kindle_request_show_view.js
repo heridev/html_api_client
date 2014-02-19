@@ -3,7 +3,9 @@ KindlesApp.Views.KindleRequestShowView = Backbone.View.extend({
   tagName: 'article',
 
   events: {
-    'click .delete-kindle-request'    :    'removeKindleRequest'
+    'click .delete-kindle-request'   :    'removeKindleRequest',
+    'click .assign-kindle'           :    'assignKindle',
+    'click .return-kindle'           :    'returnKindle'
   },
 
   render: function() {
@@ -16,7 +18,25 @@ KindlesApp.Views.KindleRequestShowView = Backbone.View.extend({
       async_mode: false,
       path: 'templates/',
     });
+    this.addKindleSelectForm();
     return this;
+  },
+
+  addKindleSelectForm: function(){
+    var request = $.get(KindlesApp.ServerUrl + '/api/kindles/available');
+
+    request.success((function(_this) {
+      return function(response) {
+        _this.$('#kindles-select').loadFromTemplate({
+          template : 'select_kindles_form',
+          data : response,
+          render_method: 'html',
+          extension : ".html",
+          async_mode: false,
+          path: 'templates/',
+        });
+      };
+    })(this));
   },
 
   removeKindleRequest: function(event){
@@ -37,27 +57,41 @@ KindlesApp.Views.KindleRequestShowView = Backbone.View.extend({
     }
   },
 
-  editKindle: function(event){
+  assignKindle: function(event){
     event.preventDefault();
-    var element = this.$(event.currentTarget).closest( "div" )
-    kindle = this.setKindle(element);
+    form = this.$('#assign-kindle-form');
+    data = form.serializeObject();
 
-    kindle.fetch({
+    var options = {
       success: function() {
-        var view = new kindleEditView({
-          model: kindle
+        $.jGrowl("You kindle request was updated successfully", {
+          position: 'center'
         });
-        element.html(view.render().el);
+        KindlesApp.Router.navigate('kindle-requests', { trigger: true });
+      },
+      error: function(model, response){
+        console.log(response);
+        _this.showErrors(response);
       }
-    });
+    }
+
+    var options
+    this.model.save(data, options );
   },
 
-  setKindle: function(element){
-    var kindleId = element.attr('id');
+  returnKindle: function(event){
+    var request = $.get(KindlesApp.ServerUrl + '/api/kindle_requests/return_kindle', { id: this.model.id });
 
-    return new KindleModel({
-      id: kindleId
-    });
+    request.success((function(_this) {
+      return function(response) {
+        if(response){
+          $.jGrowl("Operation performed successfully", {
+            position: 'center'
+          });
+          KindlesApp.Router.navigate('kindle-requests', { trigger: true });
+        }
+      };
+    })(this));
   }
 });
 

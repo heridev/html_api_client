@@ -25,7 +25,7 @@ KindlesApp.Views.AddKindleRequestView = Backbone.View.extend({
     var data, form;
     var kindleModel = new KindlesApp.Models.KindleRequestModel();
     var _this = this;
-    data = { status: 'in_progress' }
+    data = { status: 'in_progress', amount_day: 0 }
 
     var options = {
       success: function() {

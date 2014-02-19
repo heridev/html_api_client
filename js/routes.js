@@ -3,7 +3,7 @@ KindlesApp.Routers.Router = Backbone.Router.extend({
   routes: {
     ""                           : "login",
     "kindles"                    : "manageKindles",
-    "kindle-requests"            : "manageKindleRequests",
+    "kindle-requests(/:type)"    : "manageKindleRequests",
     "kindle-requests/show/:id"   : "showKindleRequest",
     "add-kindle"                 : "addKindle",
     "logout"                     : "logOut",
@@ -144,12 +144,12 @@ KindlesApp.Routers.Router = Backbone.Router.extend({
     this.renderPage(new KindlesApp.Views.AddKindleRequestView());
   },
 
-  manageKindleRequests: function() {
+  manageKindleRequests: function(type) {
     this.addUserToken();
     var _this = this;
     kindles_requests = new KindlesApp.Collections.KindleRequestsCollection();
     kindles_requests.fetch({
-      data: { page: 1 },
+      data: { page: 1, type: type },
       success : function (data, response, jqXHR) {
         pageInfo = {
           renderMethod: 'html',
