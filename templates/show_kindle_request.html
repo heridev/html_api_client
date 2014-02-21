@@ -7,8 +7,6 @@
     <!--<p><strong>Select Duration(days): </strong>-->
     <!--<input type="number" value="{{amount_day}}" name='amount_day' class="form-control" type="text" placeholder="Days">  </p>-->
     <br/>
-    <button type="button" class="btn btn-primary assign-kindle">Assign</button>
-    <button type="button" class="btn btn-primary delete-kindle-request">Delete Request</button>
-    {{#if kindle_id}}<button type="button" class="btn btn-primary return-kindle">Return Kindle</button>{{/if}}
+    {{ validate-buttons }}
   </form>
 </div>

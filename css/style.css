@@ -94,3 +94,6 @@ body {
   font-size: 19px;
   font-weight: bold;
 }
+#assign-kindle-form button {
+  margin-right: 10px;
+}

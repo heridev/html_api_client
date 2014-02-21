@@ -70,7 +70,6 @@ KindlesApp.Views.KindleRequestShowView = Backbone.View.extend({
         KindlesApp.Router.navigate('kindle-requests', { trigger: true });
       },
       error: function(model, response){
-        console.log(response);
         _this.showErrors(response);
       }
     }
@@ -82,13 +81,15 @@ KindlesApp.Views.KindleRequestShowView = Backbone.View.extend({
   returnKindle: function(event){
     var request = $.get(KindlesApp.ServerUrl + '/api/kindle_requests/return_kindle', { id: this.model.id });
 
+    var redirect = this.model.get('status');
+
     request.success((function(_this) {
       return function(response) {
         if(response){
           $.jGrowl("Operation performed successfully", {
             position: 'center'
           });
-          KindlesApp.Router.navigate('kindle-requests', { trigger: true });
+          KindlesApp.Router.navigate('kindle-requests/' + redirect, { trigger: true });
         }
       };
     })(this));

@@ -161,7 +161,8 @@ KindlesApp.Routers.Router = Backbone.Router.extend({
           pageInfo: pageInfo,
           collection: response.models,
           collectionSource: new KindlesApp.Collections.KindleRequestsCollection(),
-          template: 'kindle_requests_details'
+          template: 'kindle_requests_details',
+          type: type
         });
         _this.renderPage(currentView);
       }

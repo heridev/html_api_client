@@ -8,8 +8,7 @@ var KindleView = Backbone.View.extend({
   },
 
   events: {
-    "click .edit-kindle"        : "editKindle",
-    "click .remove-kindle"      : "removeKindle"
+    "click .edit-kindle"        : "editKindle"
   },
 
   render: function() {
@@ -23,23 +22,6 @@ var KindleView = Backbone.View.extend({
       path: 'templates/',
     });
     return this;
-  },
-
-  removeKindle: function(event){
-    event.preventDefault();
-    var element = this.$(event.currentTarget).closest( "div" )
-    kindle = this.setKindle(element);
-
-    if (confirm('Está seguro de que desea eliminar este kindle?')) {
-      kindle.destroy({
-        success: function(model, response) {
-          element.remove();
-        },
-        error: function(model, response) {
-          alert('ocurrio un error al momento de eliminar');
-        }
-      });
-    }
   },
 
   editKindle: function(event){
