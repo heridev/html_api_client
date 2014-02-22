@@ -6,7 +6,7 @@ window.KindlesApp = {
   Routers: {},
   UserToken: null,
   ServerUrl: 'http://publicrailsapi.herokuapp.com',
-  GoogleRedirect: 'http://test.heridev.com.mx/',
+  GoogleRedirect: 'http://kindles.herokuapp.com',
   init: function() {
     this.Router = new KindlesApp.Routers.Router();
     return Backbone.history.start();
