@@ -35,7 +35,6 @@ KindlesApp.Views.AddKindleRequestView = Backbone.View.extend({
         KindlesApp.Router.navigate('add-kindle-request', { trigger: true });
       },
       error: function(model, response){
-        console.log(response);
         _this.showErrors(response);
       }
     }

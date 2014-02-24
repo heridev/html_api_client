@@ -23,20 +23,26 @@ KindlesApp.Views.KindleRequestShowView = Backbone.View.extend({
   },
 
   addKindleSelectForm: function(){
-    var request = $.get(KindlesApp.ServerUrl + '/api/kindles/available');
+    if(this.model.get('status') != 'active'){
+      var request = $.get(KindlesApp.ServerUrl + '/api/kindles/available');
 
-    request.success((function(_this) {
-      return function(response) {
-        _this.$('#kindles-select').loadFromTemplate({
-          template : 'select_kindles_form',
-          data : response,
-          render_method: 'html',
-          extension : ".html",
-          async_mode: false,
-          path: 'templates/',
-        });
-      };
-    })(this));
+      request.success((function(_this) {
+        return function(response) {
+          _this.$('#kindles-select').loadFromTemplate({
+            template : 'select_kindles_form',
+            data : response,
+            render_method: 'html',
+            extension : ".html",
+            async_mode: false,
+            path: 'templates/',
+          });
+        };
+      })(this));
+    }
+    else
+    {
+      this.$('#kindles-select').html(this.model.get('kindle_inventory'))
+    }
   },
 
   removeKindleRequest: function(event){
